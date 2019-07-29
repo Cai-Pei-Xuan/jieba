@@ -1,0 +1,1 @@
+本資料夾是為了放AllKeyWordSimilar.json而存在的，可以去Releases中下載檔案，但在做執行時，需要將本記事本做刪除。
