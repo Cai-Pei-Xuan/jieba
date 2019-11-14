@@ -40,7 +40,7 @@ def LoadJson_ijson(filepath):
         AllData = AllData[0]
     return AllData
 
-# 读取数据，
+# 读取数据
 def LoadJson(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         AllData = json.load(f)
@@ -179,6 +179,7 @@ def StatisticsRankingTable(path):
             dataList.clear()
            
     # 字典排序，參考網站:https://segmentfault.com/a/1190000004959880 or https://blog.csdn.net/xuezhangjun0121/article/details/78477028
+    # 排序後大概會存成這樣，sort_Dict = {"a" : [["b" : 2], ["s" : 1]], "n" : [["b" : 4], ["s" : 3]}
     sort_Dict = {}
     for d_key in Dict.keys():
         sort_key = sorted(Dict[d_key].items(), key=lambda d: d[1], reverse=True)
@@ -251,6 +252,7 @@ def WordSimilarRankingTable(path):
             list_B.clear()
             
         # 將關鍵詞的相似度排行表做排序(大到小)
+        # 排序後大概會存成這樣，SimilarDict = {"a" : [["b" : 2], ["s" : 1]], "n" : [["b" : 4], ["s" : 3]}
         SimilarDict[d_key] = sorted(SimilarDict[d_key].items(), key=lambda d: d[1], reverse=True)
 
         SimilarCandidate.clear()
