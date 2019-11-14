@@ -106,7 +106,46 @@ def DealWikiData(path):
             index += 1
         except :
             break
-        
+
+# 統計所有關鍵詞的詞頻表
+def StatisticsWordFrequencyTable(path):
+    # 统计文件夹下文件的数目，參考網站:https://blog.csdn.net/Engineer_X/article/details/80295884
+    DIR = path + '/AllCutWikiData' #要统计的文件夹
+    #print (len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+    num = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+
+    # AllCutWikiData底下所有的資料做關鍵詞的關聯度排行列表
+    # dictionary (字典) 基本指令，參考網站:http://design2u.me/blog/33/python-list-%E4%B8%B2%E5%88%97-%E8%88%87-dictionary-%E5%AD%97%E5%85%B8-%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4
+    # Dict大概會存成這樣，Dict = {"a" : 3, "b" : 1, "c" : 2}
+    Dict = {}
+    for i in range(num):
+        # 讀檔(處理過wikidata後的詞彙資料)
+        filepath = path + '/AllCutWikiData/' + str(i) + '.txt'
+        for j in open(filepath, 'r', encoding='UTF-8'):
+            # 移除換行，並用空格分割
+            dataList = []
+            dataList = j.replace('\n', '').split(' ')
+            for key_A in dataList:
+                if key_A != '':
+                    # 如果沒有在字典內就建一個
+                    if key_A not in Dict.keys():
+                        Dict[key_A] = 1
+                    else :
+                        Dict[key_A] = Dict[key_A] + 1
+            dataList.clear()
+           
+    # 字典排序，參考網站:https://segmentfault.com/a/1190000004959880 or https://blog.csdn.net/xuezhangjun0121/article/details/78477028
+    # sort_Dict = {}
+    # sort_key = sorted(Dict.items(), key=lambda d: d[1], reverse=True)
+    # sort_Dict = sort_key
+    # print(sort_key)
+
+    # 將字典存檔，字典快速保存與读取，參考網站:https://blog.csdn.net/u012155582/article/details/78077180
+    filepath = path + '/WordFrequency/AllKeyWordFrequency.json'
+    f = open(filepath, 'w', encoding='UTF-8')
+    json.dump(Dict,f, ensure_ascii=False)
+    f.close()
+
 # 統計與所有關鍵詞的關聯度排行表
 def StatisticsRankingTable(path):
     # 统计文件夹下文件的数目，參考網站:https://blog.csdn.net/Engineer_X/article/details/80295884
@@ -269,6 +308,8 @@ if __name__ == '__main__':
     ###建立所需的資料---
     # 處理wikidata(做jieba)，並存檔(保留有用的詞彙)
     # DealWikiData(path)
+    # 統計所有關鍵詞的詞頻表
+    # StatisticsWordFrequencyTable(path)
     # 統計所有關鍵詞的關聯度排行表
     # StatisticsRankingTable(path)
     # 統計所有關鍵詞的相似度排行表
